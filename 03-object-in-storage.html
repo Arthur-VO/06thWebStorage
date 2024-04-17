@@ -1,0 +1,71 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>
+        <button id="set">set object in storage</button>
+        <button id="get">get object from storage</button>
+    </p>
+    <script type="module">
+        class Person {
+            #name;
+            #age;
+            constructor(name,age){
+                this.#name = name;
+                this.#age = age;
+            }
+
+            toString(){
+                return `name: ${this.name}, age: ${this.age}`
+            }
+
+            get name(){
+                return this.#name;
+            }
+
+            get age(){
+                return this.#age;
+            }
+
+            // zonder deze methode zal een Person-object door JSON.stringify
+            // omgezet worden naar de string '{}.'
+            toJSON(){
+                return {name: this.name, age: this.age};
+            }
+        }
+
+
+        const btnSet = document.getElementById('set');
+        const btnGet = document.getElementById('get')
+
+        // set object in storage
+        btnSet.onclick = () =>{
+            // JavaScript object
+            const student = {name:'Fien',age:62};
+            window.localStorage.setItem(1, JSON.stringify(student));
+
+            // Object: instance of class Person
+            const person1 = new Person('jan',25);
+            window.localStorage.setItem(2,JSON.stringify(person1));
+        }
+
+        btnGet.onclick = () =>{
+            // JavaScript object
+            const obj = JSON.parse(window.localStorage.getItem(1));
+            console.log(obj.name);
+
+            // Object instance of class Person
+            const person1 = JSON.parse(window.localStorage.getItem(2));
+            console.log(person1);
+            console.log(person1 instanceof Person); //false
+
+            person1 = new Person(person1.name, person1.age);
+
+            console.log(person1 instanceof Person);
+        }
+    </script>
+</body>
+</html>
