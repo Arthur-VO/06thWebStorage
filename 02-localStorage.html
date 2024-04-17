@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/notetoself.css" />
+</head>
+<body>
+    <h1>Local Storage</h1>
+    <p>Sleutel: <input type="text" id="sleutel"></p>
+    <p>Waarde: <input type="text" id="waarde"></p>
+    <p>
+        <button id="add">Add</button>
+        <button id="get">Get</button>
+        <button id="getAll">List all key/value pairs</button>
+        <button id="clear">Clear all items</button>
+    </p>
+    <script type="module">
+        const txtSleutel = document.getElementById('sleutel');
+        const txtWaarde = document.getElementById('waarde');
+        const btnAdd = document.getElementById('add');
+        const btnGet = document.getElementById('get');
+        const btnGetAll = document.getElementById('getAll');
+        const btnClear = document.getElementById('clear');
+
+        btnAdd.onclick = () =>{
+            //item in storage plaatsen
+            window.localStorage.setItem(txtSleutel.value, txtWaarde.value);
+            txtSleutel.value='';
+            txtWaarde.value='';
+        }
+
+        btnGet.onclick = () =>{
+            //item uit storage halen
+            const waarde = window.localStorage.getItem(txtSleutel.value);
+            txtWaarde.value = waarde;
+        }
+
+        btnGetAll.onclick = () =>{
+            const length = window.localStorage.length;
+            for (let i = 0; i < length; i++) {
+                const key = window.localStorage.key(i);
+                const value = window.localStorage.getItem(key);
+                console.log(key+": "+value);
+            }
+
+            console.log("--------");
+
+            for (const item of Object.entries(window.localStorage)) {
+                console.log(item[0]+": "+item[1]);
+            }
+
+            console.log("--------");
+
+            for (const [key,value] of Object.entries(window.localStorage)) {
+                console.log(key+':', value);
+            }
+        }
+
+        btnClear.onclick = () =>{
+            //alle items uit storage verwijderen
+            window.localStorage.clear();
+        }
+
+    </script>
+</body>
+</html>
